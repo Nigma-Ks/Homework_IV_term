@@ -1,4 +1,6 @@
-﻿module PrimeNumberSeqGenerator =
+﻿namespace PrimeNumberSeq
+
+module PrimeNumberSeqGenerator =
     let createPrimeNumbersInfSeq () =
         let isPrime number =
                 let sqrtNumber = int (sqrt(float number))
