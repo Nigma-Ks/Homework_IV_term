@@ -38,7 +38,6 @@ module LambdaInterpreter =
                         LambdaAbstraction (newY, substitution newInternalTerm x T)
                     else LambdaAbstraction (y, substitution internalTerm x T) 
         
-
     let rec internalBetaReduction term =
         match term with
             | Variable _ -> term
