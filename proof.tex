@@ -1,0 +1,27 @@
+\documentclass{article}
+
+\usepackage[russian]{babel}
+
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=1cm,right=1cm,marginparwidth=1.cm]{geometry}
+
+\begin{document}
+
+\section{Доказательство S K K = I}
+
+\Large
+\newline
+$S = \lambda x y z. x z (y z)$
+\newline
+$K = \lambda x y. x$
+
+$$ S K K = (\lambda x y z. x z (y z)) (\lambda x y. x) (\lambda x y. x) \rightarrow_{\beta}$$ 
+
+$$ \lambda z. (\lambda x y. x) z ((\lambda x y. x)  z) \rightarrow_{\beta}$$ 
+
+$$ \lambda z. (\lambda x.\lambda y. x) z ((\lambda x.\lambda y. x) z) \rightarrow_{\beta}$$ 
+
+$$ \lambda z. (\lambda y. z) (\lambda y. z) \rightarrow_{\beta}$$ 
+
+$$ \lambda z. z = I$$ 
+
+\end{document}
