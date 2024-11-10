@@ -36,3 +36,27 @@ let ``Correct alpha conversion`` () =
 
     res |> should equal <| LambdaAbstraction ("y'", Application (Variable ("y'"), Variable ("y")))
 
+[<Test>]
+let ``Check S K K = I`` () =
+    let sInternal = Application (Application (Variable ("x"), Variable ("z")), Application (Variable ("y"), Variable ("z")))
+    let s = LambdaAbstraction ("x", LambdaAbstraction ("y", LambdaAbstraction ("z", sInternal)))
+    let k = LambdaAbstraction ("x", LambdaAbstraction ("y", Variable ("x")))
+
+    let term = Application (Application (s, k), k)
+    let i = LambdaAbstraction ("z", Variable ("z"))
+
+    let res = betaReduction term
+
+    res |> should equal <| i
+
+[<Test>]
+let ``Check term reduction`` () =
+    let bbb = LambdaAbstraction ("b", Application( Variable ("b"), Variable ("b")))
+    let bbb2 = Application (bbb, bbb)
+    let ab = LambdaAbstraction("a", bbb2)
+    let sndTerm = Application (LambdaAbstraction ("c", Application ( Variable ("c"), Variable ("b"))), LambdaAbstraction ("a", Variable ("a")))
+    let term = Application (Application (ab, Variable ("b")), sndTerm)
+
+    let res = betaReduction term
+
+    res |> should equal <| Application (bbb2, Variable ("b"))
