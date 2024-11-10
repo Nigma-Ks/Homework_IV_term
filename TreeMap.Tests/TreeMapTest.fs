@@ -5,15 +5,7 @@ open FsUnit
 open TreeMapFunc
 
 [<Test>]
-let ``Equality function works correctly`` () =
-      let binTree1 = Empty
-      let binTree2 = Empty
-      let binTree3 = Node(1, Empty, Empty)
-
-      (equalityTreeChecker binTree1 binTree2, equalityTreeChecker binTree1 binTree3) |> should equal (true, false)
-
-[<Test>]
-let ``Map function works correctly`` () =
+let ``Map function works correctly on int`` () =
       let binTree = Node(1,
                         Node(2, Empty, Empty),
                             Node(3, Empty, Empty))
@@ -22,4 +14,23 @@ let ``Map function works correctly`` () =
                                   Node(6, Empty, Empty))
       let resTree = map (fun x -> 2 * x) binTree
 
-      equalityTreeChecker correctResTree resTree |> should be True
+      resTree |> should equal correctResTree
+
+[<Test>]
+let ``Map function works correctly on string`` () =
+    let binTree = Node("1",
+                        Node("2", Empty, Empty),
+                            Node("3", Empty, Empty))
+    let correctResTree = Node("11",
+                            Node("22", Empty, Empty),
+                                Node("33", Empty, Empty))
+    let resTree = map (fun x -> x + x) binTree
+   
+    resTree |> should equal correctResTree
+
+[<Test>]
+let ``Map function works correctly on Empty`` () =
+    let resTree = map id Empty
+    let corrTree = Empty
+
+    resTree |> should equal corrTree
