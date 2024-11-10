@@ -7,7 +7,7 @@ open LambdaInterpreter
 
 [<Test>]
 let ``Terms without redux stay same`` () =
-      let term = Application (Variable ("y"), LambdaAbstraction ("x", Variable ("x")))
+      let term = Application (Variable ("y"), LambdaAbstraction ("x", Variable ("x"))) //y lx.x
 
       betaReduction term |> should equal <| term
 
@@ -18,7 +18,7 @@ let ``Correct substitutions`` () =
                         (LambdaAbstraction ("x",
                             LambdaAbstraction ("z", Variable ("z"))),
                                 Variable ("y")),
-                                    Variable ("y"))
+                                    Variable ("y")) // (lx.lz.z) y y
 
      let res = betaReduction term
 
@@ -30,7 +30,7 @@ let ``Correct alpha conversion`` () =
                     (LambdaAbstraction
                         ("x", LambdaAbstraction
                                 ("y", Application
-                                    (Variable ("y"), Variable ("x")))), Variable ("y"))
+                                    (Variable ("y"), Variable ("x")))), Variable ("y")) // (lx.ly. y x) y
 
     let res = betaReduction term
 
