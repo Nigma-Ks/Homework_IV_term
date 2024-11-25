@@ -25,10 +25,10 @@
     \item $S = input$
     \item $P:$ 
         \begin{enumerate} [1)]
-            \item $<definition> ::= let <termname> = <term>$.
-            \item $<defname> ::= A | B | ... | Z$.
+            \item $<definition> ::= let <defname> = <term>$.
+            \item $<defname> ::= A | B | ... | Z  \{a | b | ... | z | A | B | ... | Z \}$.
             \item $<term> ::= <application> | (<term>) | <lambda-abstraction> | <variable> | <~defname>$
-            \item $<variable> ::= a | b | ... | z$
+            \item $<variable> ::= a | b | ... | z \{a | b | ... | z | A | B | ... | Z \}$
             \item $<lambda-abstraction> = \backslash<variable>\{<variable>\}.<term>$
             \item $<application> = <term> <term>$
             \item $<input> = \{<definition> \backslash n\} <term>$.
