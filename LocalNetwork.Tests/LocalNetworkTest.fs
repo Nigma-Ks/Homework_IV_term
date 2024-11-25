@@ -132,12 +132,10 @@ let ``Infecting depends on willBeInfected result`` () =
     let mockComputer2Infected = new Mock<IComputer>()
     let mockComputer3Infected = new Mock<IComputer>()
     let mockComputer3 = new Mock<IComputer>()
-    let mutable sndGetInfection = 0
 
     mockComputer2
         .Setup(fun x -> x.CloneWithInfection)
         .Returns(
-            sndGetInfection <- sndGetInfection + 1
             mockComputer2Infected.Object
         )
     |> ignore
