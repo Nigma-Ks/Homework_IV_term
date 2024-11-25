@@ -23,9 +23,6 @@
     <PackageReference Include="coverlet.collector" Version="6.0.2"><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 <PrivateAssets>all</PrivateAssets>
 </PackageReference>
-    <PackageReference Include="FSharp.Core" Version="9.0.100">
-      <GeneratePathProperty></GeneratePathProperty>
-    </PackageReference>
     <PackageReference Include="FsCheck" Version="2.16.6">
       <GeneratePathProperty></GeneratePathProperty>
     </PackageReference>
