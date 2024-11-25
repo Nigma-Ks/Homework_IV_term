@@ -29,9 +29,6 @@
     <PackageReference Include="FsCheck" Version="2.16.6">
       <GeneratePathProperty></GeneratePathProperty>
     </PackageReference>
-    <PackageReference Include="FSharp.Core" Version="8.0.401">
-      <GeneratePathProperty></GeneratePathProperty>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

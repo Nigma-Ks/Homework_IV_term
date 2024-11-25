@@ -14,5 +14,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3">
       <GeneratePathProperty></GeneratePathProperty>
     </PackageReference>
+    <PackageReference Include="FSharp.Core" Version="9.0.100">
+      <GeneratePathProperty></GeneratePathProperty>
+    </PackageReference>
   </ItemGroup>
 </Project>

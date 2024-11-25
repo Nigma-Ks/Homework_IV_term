@@ -1,7 +1,7 @@
 ﻿open System
 open PhoneBook.PhoneBook
 
-let printInstructions() =
+let printInstructions () =
     printfn "It's a phone book!"
     printfn "You can enter command number to:"
     printfn "1. Add new record"
@@ -15,45 +15,46 @@ let printInstructions() =
 
 let phoneBaseFile = "PhoneBase.txt"
 
-let stringContact contact = sprintf "%s - %s" contact.Name contact.Phone
+let stringContact contact =
+    sprintf "%s - %s" contact.Name contact.Phone
 
 let printContactList (contactList: Contact list) =
-    if List.isEmpty contactList then 
+    if List.isEmpty contactList then
         printfn "There are no contacts\n"
     else
-        printfn "n"
         for contact in contactList do
             printfn "%s" (stringContact contact)
 
-let rec enterCorrectPhone() =
+let rec enterCorrectPhone () =
     printfn "Enter phone: "
     let phone = Console.ReadLine()
-    if isCorrectPhone(phone) then phone
+
+    if isCorrectPhone (phone) then
+        phone
     else
         printfn "Phone was incorrect\n"
-        enterCorrectPhone()
+        enterCorrectPhone ()
 
 let addNewRecord (phoneBase: Contact list) =
     printfn "To add new record enter name: "
     let name = Console.ReadLine()
-    let phone = enterCorrectPhone()
+    let phone = enterCorrectPhone ()
+
     match addContactToBase name phone phoneBase with
     | (newPhoneBase, true) ->
         printfn "Contact added successfully!\n"
         newPhoneBase
     | _ ->
-        printfn "Contact wasn't added: phone or name are already in phone book or\n"
+        printfn "Contact wasn't added: phone or name are already in phone book!\n"
         phoneBase
 
 let printFindingRes (result: Contact option) =
     match result with
-    | Some contact ->
-        printfn "Contact was found: %s" (stringContact contact)
-    | None ->
-        printfn "Contact wasn't found"
+    | Some contact -> printfn "Contact was found: %s" (stringContact contact)
+    | None -> printfn "Contact wasn't found!"
 
 let findPhoneByName (phoneBase: Contact list) =
-    let phone = enterCorrectPhone()
+    let phone = enterCorrectPhone ()
     printFindingRes (findContactByPhoneInBase phone phoneBase)
 
 let findNameByPhone (phoneBase: Contact list) =
@@ -69,17 +70,18 @@ let printContactsFromFile () =
     printfn "Contacts in file:"
     printContactList (readContactsFromFile phoneBaseFile)
 
-let addContactsFromFile (phoneBase: Contact list) = 
+let addContactsFromFile (phoneBase: Contact list) =
     writePhoneBaseFromFile phoneBase phoneBaseFile
 
-let addContactsToFile (phoneBase: Contact list) = 
+let addContactsToFile (phoneBase: Contact list) =
     writePhoneBaseToFile phoneBase phoneBaseFile
 
 let Run =
     let rec internalRun (phoneBase: Contact list) =
-        printInstructions()
+        printInstructions ()
         printfn "Enter command: "
         let command = Console.ReadLine()
+
         match command with
         | "1" ->
             let newPhoneBase = addNewRecord phoneBase
@@ -94,7 +96,7 @@ let Run =
             printCurrentPhoneBook phoneBase
             internalRun phoneBase
         | "5" ->
-            printContactsFromFile()
+            printContactsFromFile ()
             internalRun phoneBase
         | "6" ->
             let newPhoneBase = addContactsFromFile phoneBase
@@ -102,9 +104,9 @@ let Run =
         | "7" ->
             addContactsToFile phoneBase
             internalRun phoneBase
-        | "8" ->
-            printfn "Exit"
+        | "8" -> printfn "Exit"
         | _ ->
             printfn "Incorrect command!\n"
             internalRun phoneBase
+
     internalRun []
