@@ -22,4 +22,4 @@ let ``FilterCounter, mapCounter and foldCounter are equivalent`` () =
     let countersResultsEq (ls: list<int>) =
         (mapCounter ls = foldCounter ls) && (mapCounter ls = filterCounter ls)
 
-    Check.Quick countersResultsEq
+    Check.QuickThrowOnFailure countersResultsEq

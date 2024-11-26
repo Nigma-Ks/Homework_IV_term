@@ -7,42 +7,37 @@ open ExpressionTree
 [<Test>]
 let ``Calculation of Empty expression tree is correct`` () =
     let binTree = Empty
-    ((calc binTree - 0.0) <= differencePrecision) |> should be True
+    calc binTree |> should (equalWithin 0.1) 0.0
 
 [<Test>]
-let ``Calculation of expression tree wis only one value is correct`` () =
+let ``Calculation of expression tree with only one value is correct`` () =
     let binTree = // (2 + 2) * 2
         Node(
-            TreeOperator(Multiplication),
-            Node(TreeOperator(Sum), Node(Operand(2.0), Empty, Empty), Node(Operand(2.0), Empty, Empty)),
-            Node(Operand(2.0), Empty, Empty)
+            Multiplication,
+            Node(Sum, Operand(2.0), Operand(2.0)),
+            Operand(2.0)
         )
 
-    ((calc binTree - 8.0) <= differencePrecision) |> should be True
+    calc binTree |> should (equalWithin 0.1) 8.0
 
 [<Test>]
 let ``Calculation of complex expression`` () =
     let binTree = // 25 * 7 + 17 / 9 / 3
         Node(
-            TreeOperator(Sum),
-            Node(TreeOperator(Multiplication), Node(Operand(25.0), Empty, Empty), Node(Operand(7.0), Empty, Empty)),
-            Node(
-                TreeOperator(Division),
-                Node(TreeOperator(Division), Node(Operand(17.0), Empty, Empty), Node(Operand(9.0), Empty, Empty)),
-                Node(Operand(3.0), Empty, Empty)
-            )
+            Sum,
+            Node(Multiplication, Operand(25.0), Operand(7.0)),
+            Node(Division, Node(Division, Operand(17.0), Operand(9.0)), Operand(3.0))
         )
 
-    ((calc binTree - 175.6) <= differencePrecision) |> should be True
+    calc binTree |> should (equalWithin 0.1) 175.6
 
 [<Test>]
 let ``Throws exception if expression is incorrect`` () =
-    let binTree = Node(TreeOperator(Multiplication), Empty, Empty)
+    let binTree = Node(Multiplication, Empty, Empty)
     (fun () -> (calc binTree) |> ignore) |> should throw typeof<System.Exception>
 
 [<Test>]
 let ``Throws exception if there is devision by zero`` () =
-    let binTree =
-        Node(TreeOperator(Division), Node(Operand(2.0), Empty, Empty), Node(Operand(0.0), Empty, Empty))
+    let binTree = Node(Division, Operand(2.0), Operand(0.0))
 
     (fun () -> (calc binTree) |> ignore) |> should throw typeof<System.Exception>

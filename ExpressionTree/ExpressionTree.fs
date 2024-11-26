@@ -11,10 +11,12 @@ module ExpressionTree =
 
     type TreeContent =
         | TreeOperator of Operator
-        | Operand of float
+        | TreeOperand of float
+        | Nothing
 
     type Tree =
-        | Node of TreeContent * Tree * Tree
+        | Node of Operator * Tree * Tree
+        | Operand of float
         | Empty
 
     type ContinuationStep =
@@ -25,22 +27,23 @@ module ExpressionTree =
 
     let rec linearize exprTree cont =
         match exprTree with
-        | Empty -> cont ()
-        | Node(x, l, r) -> Step(x, (fun () -> linearize l (fun () -> linearize r cont)))
+        | Empty -> Step(Nothing, fun () -> Finished)
+        | Operand x -> Step(TreeOperand(x), cont)
+        | Node(x, l, r) -> Step(TreeOperator(x), (fun () -> linearize l (fun () -> linearize r cont)))
 
     let calc exprTree =
         let steps = linearize exprTree (fun () -> Finished)
 
         let rec stackCalc stack =
             match stack with
-            | Operand(x) :: Operand(y) :: TreeOperator(operator) :: tail ->
+            | TreeOperand(x) :: TreeOperand(y) :: TreeOperator(operator) :: tail ->
                 match operator with
-                | Sum -> (Operand(x + y) :: tail)
-                | Multiplication -> stackCalc (Operand(x * y) :: tail)
-                | Subtraction -> stackCalc (Operand(y - x) :: tail)
+                | Sum -> (TreeOperand(x + y) :: tail)
+                | Multiplication -> stackCalc (TreeOperand(x * y) :: tail)
+                | Subtraction -> stackCalc (TreeOperand(y - x) :: tail)
                 | Division ->
                     if (Math.Abs(x) > differencePrecision) then
-                        stackCalc (Operand(y / x) :: tail)
+                        stackCalc (TreeOperand(y / x) :: tail)
                     else
                         failwith "Division by zero"
             | _ -> stack
@@ -56,15 +59,18 @@ module ExpressionTree =
                     | [] -> 0.0
                     | result :: [] ->
                         match result with
-                        | Operand(x) -> x
+                        | TreeOperand(x) -> x
                         | _ -> incorrectExprTreeThrow ()
                     | _ -> incorrectExprTreeThrow ()
                 with Failure(msg) ->
                     failwith msg
             | Step(x, getNext) ->
-                try
-                    calcSteps (getNext ()) (x :: stackCalc stack)
-                with Failure(msg) ->
-                    failwith msg
+                if (x = Nothing) then
+                    calcSteps (getNext ()) stack
+                else
+                    try
+                        calcSteps (getNext ()) (x :: stackCalc stack)
+                    with Failure(msg) ->
+                        failwith msg
 
         calcSteps steps []
