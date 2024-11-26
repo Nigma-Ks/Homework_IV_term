@@ -6,7 +6,7 @@ open LambdaInterpreter
 
 
 [<Test>]
-let ``Terms without redux stay same test`` () =
+let ``Terms without redex stay same test`` () =
     let term = Application(Variable("y"), LambdaAbstraction("x", Variable("x"))) //y lx.x
 
     betaReduction term |> should equal <| term
