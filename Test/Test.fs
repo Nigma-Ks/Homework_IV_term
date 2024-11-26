@@ -67,7 +67,7 @@ module Test =
             let hash = hashFunction element
             hash % size
 
-        /// adds element to hash-table by hash index, erases
+        /// adds element to hash-table by hash index
         /// <param name="element">element</param>
         member this.Add(element) =
             let index = getHashIndex element
