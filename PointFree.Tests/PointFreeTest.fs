@@ -13,4 +13,4 @@ let ``Functions are equal`` () =
         && (func'3 x l = func'4 x l)
         && (func'4 x l = func'5 x l)
 
-    Check.Quick functionResAreEq
+    Check.QuickThrowOnFailure functionResAreEq
