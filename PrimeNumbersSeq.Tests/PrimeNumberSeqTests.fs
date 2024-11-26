@@ -7,7 +7,7 @@ open PrimeNumberSeqGenerator
 [<Test>]
 let ``IsPrime returns correct values test`` () =
     [ 1; 2; 3; 4; 5 ]
-    |> List.map (fun x -> isPrime x)
+    |> List.map isPrime
     |> should equal [ false; true; true; false; true ]
 
 [<Test>]
