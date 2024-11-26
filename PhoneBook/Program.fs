@@ -9,21 +9,26 @@ let printInstructions () =
     printfn "3. Find contact by name"
     printfn "4. Print current phone book"
     printfn "5. Print contacts from file"
-    printfn "6. Add contacts from file to current phone book"
-    printfn "7. Add contacts from current phone book to file"
-    printfn "8. Exit"
+    printfn "6. Add contacts from current phone book to file"
+    printfn "7. Exit"
 
 let phoneBaseFile = "PhoneBase.txt"
 
 let stringContact contact =
-    sprintf "%s - %s" contact.Name contact.Phone
+    printfn "%s - %s" contact.Name contact.Phone
 
 let printContactList (contactList: Contact list) =
     if List.isEmpty contactList then
         printfn "There are no contacts\n"
     else
-        for contact in contactList do
-            printfn "%s" (stringContact contact)
+        let rec printContactListInternal ls =
+            match ls with
+            | h :: tail ->
+                stringContact h
+                printContactListInternal tail
+            | _ -> ()
+
+        printContactListInternal contactList
 
 let rec enterCorrectPhone () =
     printfn "Enter phone: "
@@ -50,7 +55,9 @@ let addNewRecord (phoneBase: Contact list) =
 
 let printFindingRes (result: Contact option) =
     match result with
-    | Some contact -> printfn "Contact was found: %s" (stringContact contact)
+    | Some contact ->
+        printfn "Contact was found: "
+        stringContact contact
     | None -> printfn "Contact wasn't found!"
 
 let findPhoneByName (phoneBase: Contact list) =
@@ -70,13 +77,10 @@ let printContactsFromFile () =
     printfn "Contacts in file:"
     printContactList (readContactsFromFile phoneBaseFile)
 
-let addContactsFromFile (phoneBase: Contact list) =
-    writePhoneBaseFromFile phoneBase phoneBaseFile
-
 let addContactsToFile (phoneBase: Contact list) =
-    writePhoneBaseToFile phoneBase phoneBaseFile
+    writeContactsToFile phoneBase phoneBaseFile
 
-let Run =
+let run =
     let rec internalRun (phoneBase: Contact list) =
         printInstructions ()
         printfn "Enter command: "
@@ -99,14 +103,11 @@ let Run =
             printContactsFromFile ()
             internalRun phoneBase
         | "6" ->
-            let newPhoneBase = addContactsFromFile phoneBase
-            internalRun newPhoneBase
-        | "7" ->
             addContactsToFile phoneBase
             internalRun phoneBase
-        | "8" -> printfn "Exit"
+        | "7" -> printfn "Exit"
         | _ ->
             printfn "Incorrect command!\n"
             internalRun phoneBase
 
-    internalRun []
+    internalRun (writePhoneBaseFromFile phoneBaseFile)

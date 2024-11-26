@@ -1,7 +1,7 @@
 ﻿namespace BracketSequence
 
 module BracketSequenceChecker =
-    let bracketList = [ ('(', ')'); ('[', ']'); ('{', '}') ]
+    let bracketList = Map [(')', '('); ('}', '{'); (']', '[')]
 
     let isOpen (bracket: char) =
         bracket = '(' || bracket = '{' || bracket = '['
@@ -9,8 +9,7 @@ module BracketSequenceChecker =
     let isClose (bracket: char) =
         bracket = ']' || bracket = ')' || bracket = '}'
 
-    let getRelativeOpen (bracket: char) =
-        List.find (fun x -> snd x = bracket) bracketList |> fst
+    let getRelativeOpen (bracket: char) = bracketList.[bracket]
 
     let isCorrectBracketSequence (bracketString: string) =
         let rec internalBracketSequenceChecker charList bracketsStack =
@@ -28,6 +27,6 @@ module BracketSequenceChecker =
                     | _ -> false
                 else
                     internalBracketSequenceChecker tail bracketsStack
-            | [] -> if bracketsStack = [] then true else false
+            | [] -> bracketsStack = []
 
         internalBracketSequenceChecker (bracketString |> Seq.toList) []

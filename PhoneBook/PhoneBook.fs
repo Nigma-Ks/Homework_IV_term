@@ -27,26 +27,14 @@ module PhoneBook =
 
             File.WriteAllText(phoneBaseFile, json)
 
-    let isContactInFile nameForFind phoneForFind phoneBaseFile =
-        List.exists (fun contact -> contact.Name = nameForFind || contact.Phone = phoneForFind)
+    let isContactInFile nameForFind phoneToFind phoneBaseFile =
+        List.exists (fun contact -> contact.Name = nameForFind || contact.Phone = phoneToFind)
         <| readContactsFromFile phoneBaseFile
 
-    let isContactInBase nameForFind phoneForFind phoneBase =
-        List.exists (fun contact -> contact.Name = nameForFind || contact.Phone = phoneForFind) phoneBase
+    let isContactInBase nameForFind phoneToFind phoneBase =
+        List.exists (fun contact -> contact.Name = nameForFind || contact.Phone = phoneToFind) phoneBase
 
-    let writePhoneBaseToFile (phoneBase: Contact List) phoneBaseFile =
-        writeContactsToFile
-            (List.filter (fun contact -> not (isContactInFile contact.Name contact.Phone phoneBaseFile)) phoneBase)
-            phoneBaseFile
-
-    let writePhoneBaseFromFile (phoneBase: Contact List) phoneBaseFile =
-        let baseInFile = readContactsFromFile phoneBaseFile
-
-        let newPhoneBase =
-            phoneBase
-            @ (List.filter (fun contact -> not (isContactInBase contact.Name contact.Phone phoneBase)) baseInFile)
-
-        newPhoneBase
+    let writePhoneBaseFromFile phoneBaseFile = readContactsFromFile phoneBaseFile
 
     let isCorrectPhone (phone: string) =
         let pattern = @"^[0-9]+$"

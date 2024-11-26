@@ -58,15 +58,13 @@ let ``isContactInBase test`` () =
     isContactInBase "Max" "123" data |> should be True
 
 [<Test>]
-let ``Write contactMaxs from base to file test`` () =
+let ``Write contacts from base to file test`` () =
     File.WriteAllText(testFilePath, "")
-    let data = [ contactMax ]
-    writeContactsToFile data testFilePath
 
-    let contactMaxs = [ contactVasya; contactMax ]
+    let phoneBase = [ contactVasya; contactMax ]
 
-    writePhoneBaseToFile contactMaxs testFilePath
-    readContactsFromFile testFilePath |> should equal contactMaxs
+    writeContactsToFile phoneBase testFilePath
+    readContactsFromFile testFilePath |> should equal phoneBase
 
 [<Test>]
 let ``Write contactMaxs from file to base`` () =
@@ -74,10 +72,9 @@ let ``Write contactMaxs from file to base`` () =
 
     let data = [ contactMax; contactVasya ]
 
-    let contactMaxs = [ contactMax ]
     writeContactsToFile data testFilePath
 
-    writePhoneBaseFromFile contactMaxs testFilePath |> should equal data
+    writePhoneBaseFromFile testFilePath |> should equal data
 
 [<Test>]
 let ``Correct phone test`` () =
