@@ -38,7 +38,7 @@ module Lazy =
                     | Some x -> x)
 
     /// Represents Lazy working with multithreads using lock free.
-    type FreeLockLazy<'a>(supplier: unit -> 'a) =
+    type LockFreeLazy<'a>(supplier: unit -> 'a) =
         let mutable value: Option<'a> = None
 
         interface ILazy<'a> with

@@ -19,7 +19,7 @@ let ``Consistent Lazy returns same calculation result`` () =
 
 let lazies =
     [ (fun supplier -> LockLazy(supplier) :> ILazy<int>)
-      (fun supplier -> FreeLockLazy(supplier) :> ILazy<int>) ]
+      (fun supplier -> LockFreeLazy(supplier) :> ILazy<int>) ]
     |> List.map (fun x -> TestCaseData(x))
 
 [<TestCaseSource("lazies")>]
