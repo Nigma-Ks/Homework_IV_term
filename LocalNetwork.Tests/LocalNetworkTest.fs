@@ -65,7 +65,7 @@ let ``Probability is zero test`` () =
           Computers = computersArray
           IsInfectedNetwork = false }
 
-    network.InfectionSpreading.GetInfectedComputers.Length |> should equal 1
+    network.InfectionSpreading().InfectedComputers.Length |> should equal 1
 
 [<Test>]
 let ``Probability is one test`` () =
@@ -113,7 +113,7 @@ let ``Probability is one test`` () =
 
     let fstInfectionStepNetwork = modelInfectionSpreadStep network
 
-    fstInfectionStepNetwork.GetInfectedComputers
+    fstInfectionStepNetwork.InfectedComputers
     |> should
         equal
         [| computer1.CloneWithInfection
@@ -123,7 +123,7 @@ let ``Probability is one test`` () =
 
     let sndInfectionStepNetwork = modelInfectionSpreadStep fstInfectionStepNetwork
 
-    sndInfectionStepNetwork.GetInfectedComputers.Length |> should equal 6
+    sndInfectionStepNetwork.InfectedComputers.Length |> should equal 6
 
 [<Test>]
 let ``Infecting depends on willBeInfected result`` () =
@@ -135,9 +135,7 @@ let ``Infecting depends on willBeInfected result`` () =
 
     mockComputer2
         .Setup(fun x -> x.CloneWithInfection)
-        .Returns(
-            mockComputer2Infected.Object
-        )
+        .Returns(mockComputer2Infected.Object)
     |> ignore
 
     mockComputer2.Setup(fun x -> x.WillBeInfected).Returns(false) |> ignore
