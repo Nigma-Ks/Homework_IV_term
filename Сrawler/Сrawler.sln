@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Сrawler", "Сrawler.fsproj", "{717B2B20-5773-42D6-8147-13E282A5B12E}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Crawler.Tests", "..\Crawler.Tests\Crawler.Tests.fsproj", "{4CC97B9B-17D8-4FB7-803F-084778FE0AA9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{717B2B20-5773-42D6-8147-13E282A5B12E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{717B2B20-5773-42D6-8147-13E282A5B12E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{717B2B20-5773-42D6-8147-13E282A5B12E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{717B2B20-5773-42D6-8147-13E282A5B12E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CC97B9B-17D8-4FB7-803F-084778FE0AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CC97B9B-17D8-4FB7-803F-084778FE0AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CC97B9B-17D8-4FB7-803F-084778FE0AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CC97B9B-17D8-4FB7-803F-084778FE0AA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE5DC773-1FC1-4FE5-A564-749994168AEB}
+	EndGlobalSection
+EndGlobal
