@@ -2,6 +2,7 @@
 
 open NUnit.Framework
 open FsCheck
+open FsUnit
 open System.Threading
 open Lazy
 
@@ -14,7 +15,7 @@ let ``Consistent Lazy returns same calculation result`` () =
         let thrdResult = newLazy.Get()
         fstResult = sndResult && sndResult = thrdResult
 
-    Check.Quick consistentLazyChecker
+    Check.QuickThrowOnFailure consistentLazyChecker
 
 let lazies =
     [ (fun supplier -> LockLazy(supplier) :> ILazy<int>)
@@ -23,26 +24,27 @@ let lazies =
 
 [<TestCaseSource("lazies")>]
 let ``Lock and free lock Lazies execute supplier one time`` (newILazy: (unit -> int) -> ILazy<int>) =
+    let event = new ManualResetEvent(false)
+    let mutable count = 0
 
-    let multiThreadLazyChecker (supplier: unit -> int) =
-        let event = new ManualResetEvent(false)
-        let multiThreadLazy = newILazy supplier
+    let multiThreadLazy =
+        newILazy (fun () ->
+            count <- count + 1
+            count)
 
-        let task =
-            async {
-                event.WaitOne() |> ignore
-                return multiThreadLazy.Get()
-            }
+    let task =
+        async {
+            event.WaitOne() |> ignore
+            return multiThreadLazy.Get()
+        }
 
-        let taskSeq = Seq.init 10 (fun _ -> task) |> Async.Parallel
-        Thread.Sleep(100)
-        event.Set() |> ignore
-        let results = taskSeq |> Async.RunSynchronously
-        let mutable isEqual = true
+    let taskSeq = Seq.init 10 (fun _ -> task) |> Async.Parallel
+    Thread.Sleep(100)
+    event.Set() |> ignore
+    let results = taskSeq |> Async.RunSynchronously
+    let mutable isEqual = true
 
-        for result in results do
-            isEqual <- (result = results.[0]) && isEqual
+    for result in results do
+        isEqual <- (result = results.[0]) && isEqual
 
-        isEqual
-
-    Check.Quick multiThreadLazyChecker
+    isEqual |> should be True
