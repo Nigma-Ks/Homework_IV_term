@@ -30,12 +30,14 @@ module Lazy =
         interface ILazy<'a> with
             /// <inheritdoc/>
             member this.Get() =
-                lock (lockObj) (fun () ->
-                    match value with
-                    | None ->
-                        value <- Some(supplier ())
-                        value.Value
-                    | Some x -> x)
+                if value.IsNone then
+                    lock (lockObj) (fun () ->
+                        match value with
+                        | None ->
+                            value <- Some(supplier ())
+                            value.Value
+                        | Some x -> x)
+                else value.Value
 
     /// Represents Lazy working with multithreads using lock free.
     type LockFreeLazy<'a>(supplier: unit -> 'a) =

@@ -25,12 +25,11 @@ let lazies =
 [<TestCaseSource("lazies")>]
 let ``Lock and free lock Lazies execute supplier one time`` (newILazy: (unit -> int) -> ILazy<int>) =
     let event = new ManualResetEvent(false)
-    let mutable count = 0
+    let mutable count = ref 0
 
     let multiThreadLazy =
         newILazy (fun () ->
-            count <- count + 1
-            count)
+            Interlocked.Increment count)
 
     let task =
         async {
