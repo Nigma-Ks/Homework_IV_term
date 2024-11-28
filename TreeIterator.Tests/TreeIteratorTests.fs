@@ -19,10 +19,8 @@ let ``AVL tree inserts elements right`` () =
 [<Test>]
 let ``Iterator test`` () =
     let mutable valuesList = []
-    let enumerator = avlTree.GetEnumerator()
-    valuesList <- enumerator.Current :: valuesList
 
-    while enumerator.MoveNext() do
-        valuesList <- enumerator.Current :: valuesList
+    for value in avlTree do
+        valuesList <- value :: valuesList
 
     valuesList |> should equal [ 50; 40; 25; 10; 20; 30 ]

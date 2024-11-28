@@ -44,35 +44,36 @@ module TreeIterator =
     /// Represents enumerator.
     type AVLTreeEnumerator<'a>(tree: AVLNode<'a> option) =
         let mutable currentStep = linearize tree (fun () -> Finished)
+        let mutable currentStepValue: 'a option = None
 
         /// Standart IEnumerator<'a> interface
         interface System.Collections.Generic.IEnumerator<'a> with
             member this.Current =
-                match currentStep with
-                | Finished -> failwith "Traversal was ended."
-                | Step(x, _) -> x
+                match currentStepValue with
+                | None -> failwith "Traversal was ended."
+                | Some x -> x
 
             member this.Dispose() = ()
 
         /// Standart IEnumerator interface
         interface System.Collections.IEnumerator with
             member this.Current: obj =
-                match currentStep with
-                | Finished -> failwith "Traversal was ended."
-                | Step(x, _) -> box x
+                match currentStepValue with
+                | None -> failwith "Traversal was ended."
+                | Some x -> box x
 
             member this.MoveNext() : bool =
                 match currentStep with
                 | Finished -> false
-                | Step(_, getNext) ->
-                    match getNext () with
-                    | Finished -> false
-                    | _ ->
-                        currentStep <- getNext ()
-                        true
+                | Step(x, getNext) ->
+                    currentStepValue <- Some x
+                    let nextStep = getNext ()
+                    currentStep <- nextStep
+                    true
 
             member this.Reset() =
                 currentStep <- linearize tree (fun () -> Finished)
+                currentStepValue <- None
 
 
     /// Represents AVL tree.
@@ -146,5 +147,10 @@ module TreeIterator =
         member this.Root = root
 
         /// Get enumerator.
-        member this.GetEnumerator() =
-            new AVLTreeEnumerator<'a>(this.Root) :> System.Collections.Generic.IEnumerator<'a>
+        interface System.Collections.Generic.IEnumerable<'a> with
+            member this.GetEnumerator() =
+                new AVLTreeEnumerator<'a>(this.Root) :> System.Collections.Generic.IEnumerator<'a>
+
+        interface System.Collections.IEnumerable with
+            member this.GetEnumerator() =
+                new AVLTreeEnumerator<'a>(this.Root) :> System.Collections.IEnumerator
