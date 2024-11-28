@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PointFreeExtra", "PointFreeExtra.fsproj", "{CA55CD04-B297-440E-AD76-8EBE85FBD1E6}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PointFreeExtra.Tests", "..\PointFreeExtra.Tests\PointFreeExtra.Tests.fsproj", "{75E4B1DE-7366-43DD-A017-ADF62D96A1D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA55CD04-B297-440E-AD76-8EBE85FBD1E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA55CD04-B297-440E-AD76-8EBE85FBD1E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA55CD04-B297-440E-AD76-8EBE85FBD1E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA55CD04-B297-440E-AD76-8EBE85FBD1E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75E4B1DE-7366-43DD-A017-ADF62D96A1D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E4B1DE-7366-43DD-A017-ADF62D96A1D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E4B1DE-7366-43DD-A017-ADF62D96A1D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E4B1DE-7366-43DD-A017-ADF62D96A1D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6F62D6F-BCC7-4F29-9AF5-9C8318F753F8}
+	EndGlobalSection
+EndGlobal
