@@ -1,0 +1,20 @@
+\documentclass{article}
+
+\usepackage[russian]{babel}
+
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=1cm,right=1cm,marginparwidth=1.cm]{geometry}
+
+\begin{document}
+
+\section{Приведение к нормальной форме}
+
+\Large$$ ((\lambda a.(\lambda b. b b) (\lambda b. b b)) b) ((\lambda c.(c b)) (\lambda a.a)) \rightarrow_{\beta}$$ 
+
+$$((\lambda b. b b) (\lambda b. b b)) ((\lambda c.(c b)) (\lambda a.a)) \rightarrow_{\beta}$$
+
+$$ ((\lambda b. b b) (\lambda b. b b)) ((\lambda a.a) b) \rightarrow_{\beta}$$
+
+$$ ((\lambda b. b b) (\lambda b. b b)) b$$
+
+
+\end{document}
